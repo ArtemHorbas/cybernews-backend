@@ -2,19 +2,19 @@ version: '3'
 services:
   postgresql:
     image: postgres
-    container_name: cyberNews
+    container_name: cybernews
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_HOST=localhost
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_DATABASE=cyberNews
+      - POSTGRES_USER=cybernews
+      - POSTGRES_PASSWORD=cybernews
+      - POSTGRES_DATABASE=cybernews
     command: postgres
     restart: always
 
   redis:
     image: redis:alpine3.14
-    container_name: redis-cyberNews
+    container_name: redis-cybernews
     ports:
       - "6379:6379"
