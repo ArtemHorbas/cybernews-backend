@@ -18,4 +18,22 @@ export class UserService {
 			discord: dto.discord
 		})
 	}
+
+	async publicUserById(id: number) {
+		return this.userRepository.findOne({
+			where: { id },
+			attributes: {
+				exclude: ['password']
+			}
+		})
+	}
+
+	async publicUserByEmail(email: string) {
+		return this.userRepository.findOne({
+			where: { email },
+			attributes: {
+				exclude: ['password']
+			}
+		})
+	}
 }

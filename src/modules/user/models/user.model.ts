@@ -11,9 +11,9 @@ export class UserTable extends Model {
 	@Column
 	password: string
 
-	@Column
+	@Column({ defaultValue: '' })
 	steam?: string
 
-	@Column
+	@Column({ defaultValue: '' })
 	discord?: string
 }

@@ -5,6 +5,7 @@ import { UserModule } from '../user/user.module'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { getSequelizeConfig } from '../../config/sequelize.config'
+import { AuthModule } from '../auth/auth.module'
 
 @Module({
 	imports: [
@@ -16,7 +17,8 @@ import { getSequelizeConfig } from '../../config/sequelize.config'
 			inject: [ConfigService],
 			useFactory: getSequelizeConfig
 		}),
-		UserModule
+		UserModule,
+		AuthModule
 	],
 	controllers: [AppController],
 	providers: [AppService]
