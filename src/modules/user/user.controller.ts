@@ -17,10 +17,20 @@ import { UserTable } from './models/user.model'
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
-	@HttpCode(200)
-	@Get('get-public/:id')
-	getPublicUser(@Param('id') id: string): Promise<UserTable> {
-		return this.userService.publicUserById(+id)
+	@Get()
+	getAll(): Promise<UserTable[]> {
+		return this.userService.getAllUsers()
+	}
+
+	@Get('profile')
+	@Auth()
+	getProfile(@User('id') id: number): Promise<UserTable> {
+		return this.userService.getUserById(id)
+	}
+
+	@Get('by-id/:id')
+	getUser(@Param('id') id: string): Promise<UserTable> {
+		return this.userService.getUserById(+id)
 	}
 
 	@HttpCode(200)

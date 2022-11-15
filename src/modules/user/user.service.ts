@@ -20,7 +20,13 @@ export class UserService {
 		})
 	}
 
-	async publicUserById(id: number): Promise<UserTable> {
+	async getAllUsers() {
+		return this.userRepository.findAll({
+			attributes: { exclude: ['password'] }
+		})
+	}
+
+	async getUserById(id: number): Promise<UserTable> {
 		return this.userRepository.findOne({
 			where: { id },
 			attributes: {
@@ -39,11 +45,11 @@ export class UserService {
 	}
 
 	//HELPERS
-	async findUserByEmail(email: string): Promise<UserTable> {
+	async getFullUser(email: string): Promise<UserTable> {
 		return this.userRepository.findOne({ where: { email } })
 	}
 
-	async publicUserByEmail(email: string): Promise<UserTable> {
+	async getUserByEmail(email: string): Promise<UserTable> {
 		return this.userRepository.findOne({
 			where: { email },
 			attributes: {

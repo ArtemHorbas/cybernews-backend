@@ -15,14 +15,14 @@ export class AuthService {
 	) {}
 
 	async registerUser(dto: CreateUserDto): Promise<AuthResponse> {
-		const existUser = await this.userService.findUserByEmail(dto.email)
+		const existUser = await this.userService.getFullUser(dto.email)
 		if (existUser) throw new BadRequestException(AppError.USER_EXIST)
 
 		dto.password = await this.hashPassword(dto.password)
 
 		await this.userService.createUser(dto)
 
-		const user = await this.userService.publicUserByEmail(dto.email)
+		const user = await this.userService.getUserByEmail(dto.email)
 
 		return {
 			user,
@@ -31,7 +31,7 @@ export class AuthService {
 	}
 
 	async loginUser(dto: UserLoginDto): Promise<AuthResponse> {
-		const existUser = await this.userService.findUserByEmail(dto.email)
+		const existUser = await this.userService.getFullUser(dto.email)
 		if (!existUser) throw new BadRequestException(AppError.USER_NOT_EXIST)
 
 		const validatePassword = await bcrypt.compare(
@@ -41,7 +41,7 @@ export class AuthService {
 		if (!validatePassword) throw new BadRequestException(AppError.WRONG_DATA)
 
 		return {
-			user: await this.userService.publicUserById(existUser.id),
+			user: await this.userService.getUserById(existUser.id),
 			token: await this.tokenService.generateJwtToken(existUser.id)
 		}
 	}
