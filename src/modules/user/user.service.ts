@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { UserTable } from './models/user.model'
 import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @Injectable()
 export class UserService {
@@ -19,11 +20,7 @@ export class UserService {
 		})
 	}
 
-	async findUserByEmail(email: string) {
-		return this.userRepository.findOne({ where: { email } })
-	}
-
-	async publicUserById(id: number) {
+	async publicUserById(id: number): Promise<UserTable> {
 		return this.userRepository.findOne({
 			where: { id },
 			attributes: {
@@ -32,7 +29,21 @@ export class UserService {
 		})
 	}
 
-	async publicUserByEmail(email: string) {
+	async updateUser(dto: UpdateUserDto, id: number): Promise<UpdateUserDto> {
+		await this.userRepository.update(dto, { where: { id } })
+		return dto
+	}
+
+	async deleteUser(id: number): Promise<number> {
+		return this.userRepository.destroy({ where: { id } })
+	}
+
+	//HELPERS
+	async findUserByEmail(email: string): Promise<UserTable> {
+		return this.userRepository.findOne({ where: { email } })
+	}
+
+	async publicUserByEmail(email: string): Promise<UserTable> {
 		return this.userRepository.findOne({
 			where: { email },
 			attributes: {
