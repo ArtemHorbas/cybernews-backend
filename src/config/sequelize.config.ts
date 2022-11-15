@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config'
 import { SequelizeModuleOptions } from '@nestjs/sequelize'
 import { UserTable } from '../modules/user/models/user.model'
+import { RolesTable } from '../modules/roles/models/roles.model'
 
 export const getSequelizeConfig = async (
 	configService: ConfigService
@@ -13,5 +14,5 @@ export const getSequelizeConfig = async (
 	database: configService.get('DB_NAME'),
 	synchronize: true,
 	autoLoadModels: true,
-	models: [UserTable]
+	models: [UserTable, RolesTable]
 })
