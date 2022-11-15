@@ -1,7 +1,15 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript'
+import {
+	BelongsToMany,
+	Column,
+	DataType,
+	Model,
+	Table
+} from 'sequelize-typescript'
+import { Role } from '../../roles/models/roles.model'
+import { UserRoles } from '../../roles/models/user-roles.model'
 
 @Table({ tableName: 'users' })
-export class UserTable extends Model {
+export class User extends Model {
 	@Column({ type: DataType.STRING, allowNull: false })
 	userName: string
 
@@ -16,4 +24,7 @@ export class UserTable extends Model {
 
 	@Column({ type: DataType.STRING, defaultValue: '' })
 	discord?: string
+
+	@BelongsToMany(() => Role, () => UserRoles)
+	roles: Role[]
 }

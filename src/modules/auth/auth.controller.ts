@@ -4,8 +4,8 @@ import { CreateUserDto } from '../user/dto/create-user.dto'
 import { AuthResponse } from './response/auth.response'
 import { UserLoginDto } from './dto/user-login.dto'
 import { Auth } from '../../decorators/auth.decorator'
-import { User } from '../../decorators/user.decorator'
-import { UserTable } from '../user/models/user.model'
+import { JwtUser } from '../../decorators/user.decorator'
+import { User } from '../user/models/user.model'
 
 @Controller('auth')
 export class AuthController {
@@ -23,7 +23,7 @@ export class AuthController {
 
 	@Post('test')
 	@Auth()
-	test(@User() user: UserTable) {
+	test(@JwtUser() user: User) {
 		return user
 	}
 }

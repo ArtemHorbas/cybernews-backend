@@ -3,7 +3,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 import { ConfigService } from '@nestjs/config'
 import { Injectable } from '@nestjs/common'
 import { UserService } from '../modules/user/user.service'
-import { UserTable } from '../modules/user/models/user.model'
+import { User } from '../modules/user/models/user.model'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		})
 	}
 
-	async validate({ id }: Pick<UserTable, 'id'>) {
+	async validate({ id }: Pick<User, 'id'>) {
 		return this.userService.getUserById(id)
 	}
 }
