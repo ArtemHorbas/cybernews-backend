@@ -4,6 +4,7 @@ import { User } from './models/user.model'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { RolesService } from '../roles/roles.service'
+import { AppRoles } from '../../utils/enums/roles'
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,7 @@ export class UserService {
 			discord: dto.discord
 		})
 
-		const role = await this.roleService.getRoleByValue('USER')
+		const role = await this.roleService.getRoleByValue(AppRoles.USER)
 
 		await user.$set('roles', [role.id])
 	}

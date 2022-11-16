@@ -3,9 +3,10 @@ import { AuthService } from './auth.service'
 import { CreateUserDto } from '../user/dto/create-user.dto'
 import { AuthResponse } from './response/auth.response'
 import { UserLoginDto } from './dto/user-login.dto'
-import { Auth } from '../../decorators/auth.decorator'
 import { JwtUser } from '../../decorators/user.decorator'
 import { User } from '../user/models/user.model'
+import { Roles } from '../../decorators/roles.decorator'
+import { AppRoles } from '../../utils/enums/roles'
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,7 @@ export class AuthController {
 	}
 
 	@Post('test')
-	@Auth()
+	@Roles(AppRoles.ADMIN)
 	test(@JwtUser() user: User) {
 		return user
 	}
