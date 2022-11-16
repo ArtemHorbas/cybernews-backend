@@ -1,37 +1,46 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { UserTable } from './models/user.model'
+import { User } from './models/user.model'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { RolesService } from '../roles/roles.service'
+import { AppRoles } from '../../utils/enums/roles'
 
 @Injectable()
 export class UserService {
 	constructor(
-		@InjectModel(UserTable) private readonly userRepository: typeof UserTable
+		@InjectModel(User) private readonly userRepository: typeof User,
+		private readonly roleService: RolesService
 	) {}
 
 	async createUser(dto: CreateUserDto) {
-		await this.userRepository.create({
+		const user = await this.userRepository.create({
 			userName: dto.userName,
 			email: dto.email,
 			password: dto.password,
 			steam: dto.steam,
 			discord: dto.discord
 		})
+
+		const role = await this.roleService.getRoleByValue(AppRoles.USER)
+
+		await user.$set('roles', [role.id])
 	}
 
 	async getAllUsers() {
 		return this.userRepository.findAll({
-			attributes: { exclude: ['password'] }
+			attributes: { exclude: ['password'] },
+			include: { all: true }
 		})
 	}
 
-	async getUserById(id: number): Promise<UserTable> {
+	async getUserById(id: number): Promise<User> {
 		return this.userRepository.findOne({
 			where: { id },
 			attributes: {
 				exclude: ['password']
-			}
+			},
+			include: { all: true }
 		})
 	}
 
@@ -45,16 +54,17 @@ export class UserService {
 	}
 
 	//HELPERS
-	async getFullUser(email: string): Promise<UserTable> {
+	async getFullUser(email: string): Promise<User> {
 		return this.userRepository.findOne({ where: { email } })
 	}
 
-	async getUserByEmail(email: string): Promise<UserTable> {
+	async getUserByEmail(email: string): Promise<User> {
 		return this.userRepository.findOne({
 			where: { email },
 			attributes: {
 				exclude: ['password']
-			}
+			},
+			include: { all: true }
 		})
 	}
 }

@@ -1,8 +1,8 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
-import { UserTable } from '../modules/user/models/user.model'
+import { User } from '../modules/user/models/user.model'
 
-export const User = createParamDecorator(
-	(data: keyof UserTable, ctx: ExecutionContext) => {
+export const JwtUser = createParamDecorator(
+	(data: keyof User, ctx: ExecutionContext) => {
 		const request = ctx.switchToHttp().getRequest()
 		const user = request.user
 

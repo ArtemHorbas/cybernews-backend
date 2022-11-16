@@ -7,6 +7,7 @@ import { SequelizeModule } from '@nestjs/sequelize'
 import { getSequelizeConfig } from '../../config/sequelize.config'
 import { AuthModule } from '../auth/auth.module'
 import { TokenModule } from '../token/token.module'
+import { RolesModule } from '../roles/roles.module'
 
 @Module({
 	imports: [
@@ -20,7 +21,8 @@ import { TokenModule } from '../token/token.module'
 		}),
 		UserModule,
 		AuthModule,
-		TokenModule
+		TokenModule,
+		RolesModule
 	],
 	controllers: [AppController],
 	providers: [AppService]

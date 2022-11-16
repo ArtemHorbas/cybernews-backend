@@ -1,19 +1,30 @@
-import { Column, Model, Table } from 'sequelize-typescript'
+import {
+	BelongsToMany,
+	Column,
+	DataType,
+	Model,
+	Table
+} from 'sequelize-typescript'
+import { Role } from '../../roles/models/roles.model'
+import { UserRoles } from '../../roles/models/user-roles.model'
 
-@Table
-export class UserTable extends Model {
-	@Column
+@Table({ tableName: 'users' })
+export class User extends Model {
+	@Column({ type: DataType.STRING, allowNull: false })
 	userName: string
 
-	@Column({ unique: true })
+	@Column({ type: DataType.STRING, unique: true, allowNull: false })
 	email: string
 
-	@Column
+	@Column({ type: DataType.STRING, allowNull: false })
 	password: string
 
-	@Column({ defaultValue: '' })
+	@Column({ type: DataType.STRING, defaultValue: '' })
 	steam?: string
 
-	@Column({ defaultValue: '' })
+	@Column({ type: DataType.STRING, defaultValue: '' })
 	discord?: string
+
+	@BelongsToMany(() => Role, () => UserRoles)
+	roles: Role[]
 }

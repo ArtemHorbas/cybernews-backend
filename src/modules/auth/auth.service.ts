@@ -3,7 +3,7 @@ import { UserService } from '../user/user.service'
 import { CreateUserDto } from '../user/dto/create-user.dto'
 import * as bcrypt from 'bcrypt'
 import { AuthResponse } from './response/auth.response'
-import { AppError } from '../../utils/error'
+import { AppError } from '../../utils/enums/error'
 import { UserLoginDto } from './dto/user-login.dto'
 import { TokenService } from '../token/token.service'
 
