@@ -3,13 +3,12 @@ import { RolesService } from '../roles/roles.service'
 import { UserService } from './user.service'
 import { RoleDto } from './dto/role.dto'
 import { AppError } from '../../utils/enums/error'
-import { AppRoles } from '../../utils/enums/roles'
 
 @Injectable()
 export class UserRolesService {
 	constructor(
-		private readonly roleService: RolesService,
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		private readonly roleService: RolesService
 	) {}
 
 	async addRole(dto: RoleDto) {
@@ -36,11 +35,5 @@ export class UserRolesService {
 		}
 
 		throw new NotFoundException(AppError.USER_ROLE_NOTE_EXIST)
-	}
-
-	async setDefaultRole(user) {
-		const role = await this.roleService.getRoleByValue(AppRoles.USER)
-
-		await user.$set('roles', [role.id])
 	}
 }

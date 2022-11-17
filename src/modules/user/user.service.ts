@@ -3,13 +3,14 @@ import { InjectModel } from '@nestjs/sequelize'
 import { User } from './models/user.model'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import { UserRolesService } from './user-roles.service'
+import { AppRoles } from '../../utils/enums/roles'
+import { RolesService } from '../roles/roles.service'
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectModel(User) private readonly userRepository: typeof User,
-		private readonly userRolesService: UserRolesService
+		private readonly roleService: RolesService
 	) {}
 
 	async createUser(dto: CreateUserDto) {
@@ -21,7 +22,9 @@ export class UserService {
 			discord: dto.discord
 		})
 
-		await this.userRolesService.setDefaultRole(user)
+		const role = await this.roleService.getRoleByValue(AppRoles.USER)
+
+		await user.$set('roles', [role.id])
 	}
 
 	async getAllUsers() {
