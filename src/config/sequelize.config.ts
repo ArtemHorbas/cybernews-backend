@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config'
 import { SequelizeModuleOptions } from '@nestjs/sequelize'
 import { User } from '../modules/user/models/user.model'
 import { Role } from '../modules/roles/models/roles.model'
-import { UserRoles } from '../modules/roles/models/user-roles.model'
+import { UserRoles } from '../modules/user/models/user-roles.model'
 
 export const getSequelizeConfig = async (
 	configService: ConfigService

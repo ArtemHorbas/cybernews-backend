@@ -14,11 +14,15 @@ import { JwtUser } from '../../decorators/user.decorator'
 import { User } from './models/user.model'
 import { Roles } from '../../decorators/roles.decorator'
 import { AppRoles } from '../../utils/enums/roles'
-import { AddRoleDto } from './dto/add-role.dto'
+import { RoleDto } from './dto/role.dto'
+import { UserRolesService } from './user-roles.service'
 
 @Controller('user')
 export class UserController {
-	constructor(private readonly userService: UserService) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly userRolesService: UserRolesService
+	) {}
 
 	@Get()
 	getAll(): Promise<User[]> {
@@ -55,7 +59,13 @@ export class UserController {
 
 	@Patch('role')
 	@Roles(AppRoles.ADMIN)
-	addRole(@Body() dto: AddRoleDto) {
-		return this.userService.addRole(dto)
+	addRole(@Body() dto: RoleDto) {
+		return this.userRolesService.addRole(dto)
+	}
+
+	@Delete('role')
+	@Roles(AppRoles.ADMIN)
+	deleteRole(@Body() dto: RoleDto) {
+		return this.userRolesService.deleteRole(dto)
 	}
 }
