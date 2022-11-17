@@ -12,6 +12,9 @@ import { Auth } from '../../decorators/auth.decorator'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { JwtUser } from '../../decorators/user.decorator'
 import { User } from './models/user.model'
+import { Roles } from '../../decorators/roles.decorator'
+import { AppRoles } from '../../utils/enums/roles'
+import { AddRoleDto } from './dto/add-role.dto'
 
 @Controller('user')
 export class UserController {
@@ -48,5 +51,11 @@ export class UserController {
 	@Auth()
 	deleteUser(@JwtUser('id') id: number): Promise<number> {
 		return this.userService.deleteUser(id)
+	}
+
+	@Patch('role')
+	@Roles(AppRoles.ADMIN)
+	addRole(@Body() dto: AddRoleDto) {
+		return this.userService.addRole(dto)
 	}
 }

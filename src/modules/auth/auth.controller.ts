@@ -23,7 +23,7 @@ export class AuthController {
 	}
 
 	@Post('test')
-	@Roles(AppRoles.ADMIN)
+	@Roles(AppRoles.USER)
 	test(@JwtUser() user: User) {
 		return user
 	}

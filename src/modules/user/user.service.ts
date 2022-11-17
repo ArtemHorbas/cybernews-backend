@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { User } from './models/user.model'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { RolesService } from '../roles/roles.service'
 import { AppRoles } from '../../utils/enums/roles'
+import { AddRoleDto } from './dto/add-role.dto'
+import { AppError } from '../../utils/enums/error'
 
 @Injectable()
 export class UserService {
@@ -35,8 +37,7 @@ export class UserService {
 	}
 
 	async getUserById(id: number): Promise<User> {
-		return this.userRepository.findOne({
-			where: { id },
+		return this.userRepository.findByPk(id, {
 			attributes: {
 				exclude: ['password']
 			},
@@ -51,6 +52,19 @@ export class UserService {
 
 	async deleteUser(id: number): Promise<number> {
 		return this.userRepository.destroy({ where: { id } })
+	}
+
+	async addRole(dto: AddRoleDto) {
+		const user = await this.getUserById(dto.userId)
+		const role = await this.roleService.getRoleByValue(dto.value)
+
+		if (role && user) {
+			await user.$add('role', role.id)
+
+			return await this.getUserById(dto.userId)
+		}
+
+		throw new NotFoundException(AppError.USER_ROLE_NOTE_EXIST)
 	}
 
 	//HELPERS
