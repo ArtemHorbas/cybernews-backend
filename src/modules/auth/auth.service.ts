@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { UserService } from '../user/user.service'
 import { CreateUserDto } from '../user/dto/create-user.dto'
 import * as bcrypt from 'bcrypt'
-import { AuthResponse } from './response/auth.response'
+import { IAuthResponse } from './response/auth.response'
 import { AppError } from '../../utils/enums/error'
 import { UserLoginDto } from './dto/user-login.dto'
 import { TokenService } from '../token/token.service'
@@ -14,7 +14,7 @@ export class AuthService {
 		private readonly tokenService: TokenService
 	) {}
 
-	async registerUser(dto: CreateUserDto): Promise<AuthResponse> {
+	async registerUser(dto: CreateUserDto): Promise<IAuthResponse> {
 		const existUser = await this.userService.getFullUser(dto.email)
 		if (existUser) throw new BadRequestException(AppError.USER_EXIST)
 
@@ -30,7 +30,7 @@ export class AuthService {
 		}
 	}
 
-	async loginUser(dto: UserLoginDto): Promise<AuthResponse> {
+	async loginUser(dto: UserLoginDto): Promise<IAuthResponse> {
 		const existUser = await this.userService.getFullUser(dto.email)
 		if (!existUser) throw new BadRequestException(AppError.USER_NOT_EXIST)
 

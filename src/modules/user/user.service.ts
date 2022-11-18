@@ -22,7 +22,7 @@ export class UserService {
 			discord: dto.discord
 		})
 
-		const role = await this.roleService.getRoleByValue(AppRoles.USER)
+		const role = await this.roleService.getRoleByValue(AppRoles.MEMBER)
 
 		await user.$set('roles', [role.id])
 	}

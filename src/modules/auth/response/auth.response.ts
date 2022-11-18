@@ -1,9 +1,6 @@
 import { User } from '../../user/models/user.model'
-import { IsString } from 'class-validator'
 
-export class AuthResponse {
+export interface IAuthResponse {
 	user: User
-
-	@IsString()
 	token: string
 }

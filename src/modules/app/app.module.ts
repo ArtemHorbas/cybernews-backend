@@ -8,6 +8,8 @@ import { getSequelizeConfig } from '../../config/sequelize.config'
 import { AuthModule } from '../auth/auth.module'
 import { TokenModule } from '../token/token.module'
 import { RolesModule } from '../roles/roles.module'
+import { PostModule } from '../post/post.module'
+import { MediaModule } from '../media/media.module'
 
 @Module({
 	imports: [
@@ -22,7 +24,9 @@ import { RolesModule } from '../roles/roles.module'
 		UserModule,
 		AuthModule,
 		TokenModule,
-		RolesModule
+		RolesModule,
+		PostModule,
+		MediaModule
 	],
 	controllers: [AppController],
 	providers: [AppService]

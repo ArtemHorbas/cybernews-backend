@@ -1,5 +1,5 @@
 export const enum AppRoles {
-	USER = 'USER',
+	MEMBER = 'MEMBER',
 	ADMIN = 'ADMIN',
 	MODER = 'MODER'
 }
