@@ -12,27 +12,27 @@ export class UserRolesService {
 		private readonly roleService: RolesService
 	) {}
 
-	async addRole(dto: RoleDto): Promise<User> {
-		const user = await this.userService.getUserById(dto.userId)
+	async giveRole(dto: RoleDto): Promise<User> {
+		const user = await this.userService.findById(dto.userId)
 		const role = await this.roleService.getRoleByValue(dto.value)
 
 		if (role && user) {
 			await user.$add('role', role.id)
 
-			return await this.userService.getUserById(dto.userId)
+			return await this.userService.findById(dto.userId)
 		}
 
 		throw new NotFoundException(AppError.USER_ROLE_NOTE_EXIST)
 	}
 
-	async deleteRole(dto: RoleDto): Promise<User> {
-		const user = await this.userService.getUserById(dto.userId)
+	async removeRole(dto: RoleDto): Promise<User> {
+		const user = await this.userService.findById(dto.userId)
 		const role = await this.roleService.getRoleByValue(dto.value)
 
 		if (role && user) {
 			await user.$remove('role', role.id)
 
-			return await this.userService.getUserById(dto.userId)
+			return await this.userService.findById(dto.userId)
 		}
 
 		throw new NotFoundException(AppError.USER_ROLE_NOTE_EXIST)

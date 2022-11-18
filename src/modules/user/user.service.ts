@@ -13,7 +13,7 @@ export class UserService {
 		private readonly roleService: RolesService
 	) {}
 
-	async createUser(dto: CreateUserDto) {
+	async create(dto: CreateUserDto): Promise<User> {
 		const user = await this.userRepository.create({
 			userName: dto.userName,
 			email: dto.email,
@@ -25,17 +25,19 @@ export class UserService {
 		const role = await this.roleService.getRoleByValue(AppRoles.MEMBER)
 
 		await user.$set('roles', [role.id])
+
+		return user
 	}
 
-	async getAllUsers() {
-		return this.userRepository.findAll({
+	async findAll(): Promise<User[]> {
+		return await this.userRepository.findAll({
 			attributes: { exclude: ['password'] },
 			include: { all: true }
 		})
 	}
 
-	async getUserById(id: number): Promise<User> {
-		return this.userRepository.findByPk(id, {
+	async findById(id: number): Promise<User> {
+		return await this.userRepository.findByPk(id, {
 			attributes: {
 				exclude: ['password']
 			},
@@ -43,27 +45,17 @@ export class UserService {
 		})
 	}
 
-	async updateUser(dto: UpdateUserDto, id: number): Promise<UpdateUserDto> {
+	async update(dto: UpdateUserDto, id: number): Promise<UpdateUserDto> {
 		await this.userRepository.update(dto, { where: { id } })
 		return dto
 	}
 
-	async deleteUser(id: number): Promise<number> {
+	async remove(id: number): Promise<number> {
 		return this.userRepository.destroy({ where: { id } })
 	}
 
 	//HELPERS
-	async getFullUser(email: string): Promise<User> {
+	async findFullUser(email: string): Promise<User> {
 		return this.userRepository.findOne({ where: { email } })
-	}
-
-	async getUserByEmail(email: string): Promise<User> {
-		return this.userRepository.findOne({
-			where: { email },
-			attributes: {
-				exclude: ['password']
-			},
-			include: { all: true }
-		})
 	}
 }

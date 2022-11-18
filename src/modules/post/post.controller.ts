@@ -3,6 +3,7 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpCode,
 	Param,
 	Patch,
 	Post
@@ -19,9 +20,10 @@ import { Post as PostModel } from './models/post.model'
 export class PostController {
 	constructor(private readonly postService: PostService) {}
 
+	@HttpCode(200)
 	@Post()
 	@Roles(AppRoles.ADMIN, AppRoles.MODER)
-	createPost(
+	create(
 		@Body() dto: CreatePostDto,
 		@CurrentUser('id') userId: number
 	): Promise<PostModel> {
@@ -29,25 +31,29 @@ export class PostController {
 	}
 
 	@Get()
-	getAllPosts(): Promise<PostModel[]> {
+	findAll(): Promise<PostModel[]> {
 		return this.postService.findAll()
 	}
 
 	@Get(':id')
-	getPost(@Param('id') id: string): Promise<PostModel> {
+	findOne(@Param('id') id: string): Promise<PostModel> {
 		return this.postService.findOne(+id)
 	}
 
+	@HttpCode(200)
 	@Patch(':id')
-	updatePost(
+	@Roles(AppRoles.ADMIN, AppRoles.MODER)
+	update(
 		@Param('id') id: string,
 		@Body() dto: UpdatePostDto
 	): Promise<PostModel> {
 		return this.postService.update(dto, +id)
 	}
 
+	@HttpCode(200)
 	@Delete(':id')
-	deletePost(@Param('id') id: string): Promise<number> {
+	@Roles(AppRoles.ADMIN, AppRoles.MODER)
+	remove(@Param('id') id: string): Promise<number> {
 		return this.postService.remove(+id)
 	}
 }

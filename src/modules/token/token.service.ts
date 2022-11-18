@@ -9,7 +9,7 @@ export class TokenService {
 		private readonly configService: ConfigService
 	) {}
 
-	async generateJwtToken(userId: number) {
+	async generateJwtToken(userId: number): Promise<string> {
 		const payload = {
 			id: userId
 		}

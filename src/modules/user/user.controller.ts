@@ -25,47 +25,49 @@ export class UserController {
 	) {}
 
 	@Get()
-	getAll(): Promise<User[]> {
-		return this.userService.getAllUsers()
+	findAll(): Promise<User[]> {
+		return this.userService.findAll()
 	}
 
 	@Get('profile')
 	@Auth()
 	getProfile(@CurrentUser('id') id: number): Promise<User> {
-		return this.userService.getUserById(id)
+		return this.userService.findById(id)
 	}
 
 	@Get('by-id/:id')
-	getUser(@Param('id') id: string): Promise<User> {
-		return this.userService.getUserById(+id)
+	findOne(@Param('id') id: string): Promise<User> {
+		return this.userService.findById(+id)
 	}
 
 	@HttpCode(200)
 	@Patch()
 	@Auth()
-	updateUser(
+	update(
 		@Body() dto: UpdateUserDto,
 		@CurrentUser('id') id: number
 	): Promise<UpdateUserDto> {
-		return this.userService.updateUser(dto, id)
+		return this.userService.update(dto, id)
 	}
 
 	@HttpCode(200)
 	@Delete()
 	@Auth()
-	deleteUser(@CurrentUser('id') id: number): Promise<number> {
-		return this.userService.deleteUser(id)
+	remove(@CurrentUser('id') id: number): Promise<number> {
+		return this.userService.remove(id)
 	}
 
+	@HttpCode(200)
 	@Patch('role')
 	@Roles(AppRoles.ADMIN)
 	addRole(@Body() dto: RoleDto): Promise<User> {
-		return this.userRolesService.addRole(dto)
+		return this.userRolesService.giveRole(dto)
 	}
 
+	@HttpCode(200)
 	@Delete('role')
 	@Roles(AppRoles.ADMIN)
-	deleteRole(@Body() dto: RoleDto): Promise<User> {
-		return this.userRolesService.deleteRole(dto)
+	removeRole(@Body() dto: RoleDto): Promise<User> {
+		return this.userRolesService.removeRole(dto)
 	}
 }

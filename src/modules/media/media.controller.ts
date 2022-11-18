@@ -10,6 +10,7 @@ import { MediaService } from './media.service'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { Roles } from '../../decorators/roles.decorator'
 import { AppRoles } from '../../utils/enums/roles'
+import { IMediaResponse } from './response/media.response'
 
 @Controller('media')
 export class MediaController {
@@ -22,7 +23,7 @@ export class MediaController {
 	uploadMediaFile(
 		@UploadedFile() mediaFile: Express.Multer.File,
 		@Query('folder') folder?: string
-	) {
+	): Promise<IMediaResponse> {
 		return this.mediaService.saveMedia(mediaFile, folder)
 	}
 }
