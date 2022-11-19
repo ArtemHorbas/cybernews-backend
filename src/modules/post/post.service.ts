@@ -22,9 +22,17 @@ export class PostService {
 		return await this.findOne(newPost.id)
 	}
 
-	async findAll(): Promise<Post[]> {
+	async findMostPopular(): Promise<Post[]> {
 		return await this.postRepository.findAll({
-			include: { all: true }
+			include: { all: true },
+			order: [['views', 'DESC']]
+		})
+	}
+
+	async findNewest(): Promise<Post[]> {
+		return await this.postRepository.findAll({
+			include: { all: true },
+			order: [['createdAt', 'DESC']]
 		})
 	}
 
@@ -32,6 +40,14 @@ export class PostService {
 		return await this.postRepository.findByPk(id, {
 			include: { all: true }
 		})
+	}
+
+	async findOneAndUpdateViews(id: number): Promise<Post> {
+		const post = await this.findOne(id)
+
+		await post.increment('views')
+
+		return post
 	}
 
 	async update(dto: UpdatePostDto, id: number): Promise<Post> {

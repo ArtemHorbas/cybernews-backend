@@ -30,14 +30,19 @@ export class PostController {
 		return this.postService.create(dto, userId)
 	}
 
-	@Get()
-	findAll(): Promise<PostModel[]> {
-		return this.postService.findAll()
+	@Get('most-popular')
+	findMostPopular(): Promise<PostModel[]> {
+		return this.postService.findMostPopular()
+	}
+
+	@Get('newest')
+	findNewest(): Promise<PostModel[]> {
+		return this.postService.findNewest()
 	}
 
 	@Get(':id')
 	findOne(@Param('id') id: string): Promise<PostModel> {
-		return this.postService.findOne(+id)
+		return this.postService.findOneAndUpdateViews(+id)
 	}
 
 	@HttpCode(200)

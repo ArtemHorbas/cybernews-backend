@@ -22,6 +22,9 @@ export class Post extends Model {
 	@Column({ type: DataTypes.STRING, allowNull: false })
 	content: string
 
+	@Column({ type: DataTypes.INTEGER, defaultValue: 0 })
+	views: number
+
 	@ForeignKey(() => User)
 	@Column({ type: DataTypes.INTEGER })
 	userId: number
