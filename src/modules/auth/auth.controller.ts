@@ -3,6 +3,11 @@ import { AuthService } from './auth.service'
 import { CreateUserDto } from '../user/dto/create-user.dto'
 import { IAuthResponse } from './response/auth.response'
 import { UserLoginDto } from './dto/user-login.dto'
+import { JwtUser } from '../../decorators/user.decorator'
+import { User } from '../user/models/user.model'
+import { Roles } from '../../decorators/roles.decorator'
+import { AppRoles } from '../../utils/enums/roles'
+
 
 @Controller('auth')
 export class AuthController {

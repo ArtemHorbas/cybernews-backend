@@ -10,6 +10,7 @@ import { Role } from '../../roles/models/roles.model'
 import { UserRoles } from './user-roles.model'
 import { Post } from '../../post/models/post.model'
 
+
 @Table({ tableName: 'users' })
 export class User extends Model {
 	@Column({ type: DataType.STRING, allowNull: false })

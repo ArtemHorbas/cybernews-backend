@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { AppRoles } from '../../utils/enums/roles'
 import { RolesService } from '../roles/roles.service'
 
+
 @Injectable()
 export class UserService {
 	constructor(
@@ -35,6 +36,7 @@ export class UserService {
 			include: { all: true }
 		})
 	}
+
 
 	async findById(id: number): Promise<User> {
 		return await this.userRepository.findByPk(id, {

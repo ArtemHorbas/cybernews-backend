@@ -11,6 +11,7 @@ import { RolesModule } from '../roles/roles.module'
 import { PostModule } from '../post/post.module'
 import { MediaModule } from '../media/media.module'
 
+
 @Module({
 	imports: [
 		ConfigModule.forRoot({
@@ -27,6 +28,7 @@ import { MediaModule } from '../media/media.module'
 		RolesModule,
 		PostModule,
 		MediaModule
+
 	],
 	controllers: [AppController],
 	providers: [AppService]

@@ -46,6 +46,7 @@ export class UserController {
 	update(
 		@Body() dto: UpdateUserDto,
 		@CurrentUser('id') id: number
+
 	): Promise<UpdateUserDto> {
 		return this.userService.update(dto, id)
 	}

@@ -5,6 +5,7 @@ import { Role } from '../modules/roles/models/roles.model'
 import { UserRoles } from '../modules/user/models/user-roles.model'
 import { Post } from '../modules/post/models/post.model'
 
+
 export const getSequelizeConfig = async (
 	configService: ConfigService
 ): Promise<SequelizeModuleOptions> => ({
