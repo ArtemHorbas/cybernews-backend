@@ -14,10 +14,16 @@ export class Post extends Model {
 	title: string
 
 	@Column({ type: DataTypes.STRING, allowNull: false })
+	miniText: string
+
+	@Column({ type: DataTypes.STRING, allowNull: false })
 	image: string
 
-	@Column({ type: DataTypes.STRING, defaultValue: '' })
+	@Column({ type: DataTypes.STRING, allowNull: false })
 	description: string
+
+	@Column({ type: DataTypes.STRING, allowNull: false })
+	secondImage: string
 
 	@Column({ type: DataTypes.STRING, allowNull: false })
 	content: string

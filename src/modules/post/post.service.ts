@@ -13,8 +13,10 @@ export class PostService {
 	async create(dto: CreatePostDto, userId: number): Promise<Post> {
 		const newPost = await this.postRepository.create({
 			title: dto.title,
+			miniText: dto.miniText,
 			image: dto.image,
 			description: dto.description,
+			secondImage: dto.secondImage,
 			content: dto.content,
 			userId
 		})

@@ -5,9 +5,16 @@ export class CreatePostDto {
 	title: string
 
 	@IsString()
+	miniText: string
+
+	@IsString()
 	image: string
 
-	description?: string
+	@IsString()
+	description: string
+
+	@IsString()
+	secondImage: string
 
 	@IsString()
 	content: string
